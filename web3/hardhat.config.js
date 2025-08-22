@@ -39,6 +39,14 @@ module.exports = {
   },
   solidity: {
     version: "0.8.23",
+    defaultNetwork: "sepolia",
+    networks: {
+      hardhat: {},
+      sepolia: {
+        url: `https://0a66b2205d0123a4ba5e967d666eeeb1.rpc.thirdweb.com/${process.env.THIRDWEB_API_KEY}`,
+        accounts: [`0x${process.env.PRIVATE_KEY}`],
+      },
+    },
     settings: {
       optimizer: {
         enabled: true,
