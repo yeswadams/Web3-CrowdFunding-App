@@ -5,6 +5,8 @@ import {client} from "../client";
 import { CustomButton } from "./";
 import { logo, menu, search, thirdweb } from "../assets";
 import { navlinks } from "../constants";
+
+
 const Navbar = () => {
   const navigate = useNavigate();
   const [isActive, setIsActive] = useState("dashboard");
@@ -35,6 +37,65 @@ const Navbar = () => {
           }}
         />
       </div>
+
+      {/* Mobile navigation */}
+      <div className="sm:hidden flex justify-between items-center relative">
+        <div className="w-[40px] h-[40px] rounded-[10px] bg-[#2c2f32] flex justify-center items-center cursor-pointer">
+          <img
+            src={logo}
+            alt="menu"
+            className="w-[20px] h-[20px] oobject-contain"
+          />
+        </div>
+        
+        <div className="w-[40px] h-[40px] rounded-[10px] bg-[#2c2f32] flex justify-center items-center cursor-pointer">
+          <img
+            src={menu}
+            alt="menu"
+            className="w-[20px] h-[20px] oobject-contain"
+            onClick={() => setToggleDrawer(!toggleDrawer)}
+          />
+
+          <div className={`absolute top-[60px] right-0 left-0 bg-[#1c1c24] z-10 shadow-secondary py-4 ${!toggleDrawer ? '-translate-y-[100vh]' : 'translate-y-0'} transition-all duration-700`}>
+            <ul className="mb-4">
+              {navlinks.map((link) => (
+                <li
+                  key={link.name}
+                  className={`flex p-4 ${isActive === link.name && 'bg-[#3a3a43]'}`}
+                  onClick={() => {
+                    setIsActive(link.name);
+                    setToggleDrawer(false);
+                    navigate(link.link);
+                  }}
+                >
+                  <img
+                    src={link.imgUrl}
+                    alt={link.name}
+                    className={`w-[24px] h-[24px] object-contain ${isActive === link.name ? 'grayscale-0' : 'grayscale'}`}
+                  />
+                  <p className={`ml-[20px] font-epilogue font-semibold text-[14px] ${isActive === link.name ? 'text-white' : 'text-[#808191]'}`}>
+                    {link.name}
+                  </p>
+                </li>
+              ))}
+            </ul>
+
+            <div className="flex mx-4">
+              <ConnectButton
+                client={client}
+                appMetadata={{
+                  name: "Example app",
+                  url: "https://example.com",
+                }}
+              />  
+            </div>
+
+          </div>
+        </div>
+
+
+      </div>
+
     </div>
   );
 };
